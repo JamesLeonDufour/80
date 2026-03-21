@@ -266,12 +266,12 @@ const CSS_VARS = {
 };
 
 const VENUE = {
-  name: "Brassempouy",
+  name: "Manoir de Bareït",
   sub: "Lieu de la fête 🎉",
-  lat: 43.621, lng: -0.767, type: "venue",
+  lat: 43.63179, lng: -0.69429, type: "venue",
   address: "Brassempouy, 40330 Landes",
-  note: "Village de la Dame de Brassempouy",
-  web: "https://www.brasempouy.fr"
+  note: "Guy Léon-Dufour — 25 juillet 2026",
+  web: "https://www.bareit.fr"
 };
 
 const HEBERGEMENTS = [
@@ -425,7 +425,7 @@ const HEBERGEMENTS = [
 ];
 
 // ── Map init ──────────────────────────────────────────────────────────────
-const map = L.map('map', { zoomControl: false }).setView([VENUE.lat, VENUE.lng], 9);
+const map = L.map('map', { zoomControl: false }).setView([VENUE.lat, VENUE.lng], 10);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
