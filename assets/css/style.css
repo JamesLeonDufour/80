@@ -459,6 +459,91 @@ section {
 }
 
 /* =============================================
+   PORTRAIT
+   ============================================= */
+#portrait {
+  background: var(--bg-2);
+  position: relative;
+}
+
+#portrait::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(184,144,46,0.25), transparent);
+}
+
+.portrait-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.portrait-photo {
+  position: relative;
+}
+
+.portrait-photo img {
+  width: 100%;
+  filter: grayscale(1) contrast(1.05);
+  display: block;
+  box-shadow: 8px 8px 0 rgba(184,144,46,0.15);
+}
+
+.portrait-caption {
+  margin-top: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+}
+
+.portrait-text p {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.9;
+}
+
+.portrait-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.portrait-divider span:not(.diamond) {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: rgba(184,144,46,0.3);
+}
+
+.portrait-quote {
+  font-family: var(--font-serif) !important;
+  font-size: 1.2rem !important;
+  font-weight: 300;
+  color: var(--text) !important;
+  line-height: 1.6 !important;
+}
+
+@media (max-width: 768px) {
+  .portrait-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .portrait-photo img {
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+/* =============================================
    PROGRAMME TIMELINE
    ============================================= */
 #programme {
