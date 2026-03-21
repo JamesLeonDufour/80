@@ -462,7 +462,7 @@ section {
    PORTRAIT
    ============================================= */
 #portrait {
-  background: var(--bg-2);
+  background: var(--white);
   position: relative;
 }
 

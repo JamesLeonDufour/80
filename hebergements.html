@@ -603,9 +603,9 @@ const allMarkers = HEBERGEMENTS.map(h => {
 
 // ── Sidebar card builder ───────────────────────────────────────────────────
 const BG_ALPHA = {
-  hotel:   'rgba(29,78,216,0.08)',
-  gite:    'rgba(21,128,61,0.08)',
-  chambre: 'rgba(194,65,12,0.08)'
+  hotel:   'rgba(29,78,216,0.13)',
+  gite:    'rgba(21,128,61,0.13)',
+  chambre: 'rgba(194,65,12,0.13)'
 };
 
 function buildCard(h) {
@@ -622,7 +622,7 @@ function buildCard(h) {
   return `
     <div class="card" data-name="${h.name}">
       <div class="card-top">
-        <div class="card-icon" style="background:${BG_ALPHA[h.type] || 'rgba(0,0,0,0.04)'}">
+        <div class="card-icon" style="background:${BG_ALPHA[h.type] || 'rgba(0,0,0,0.04)'};border:1px solid ${CSS_VARS[h.type]}30">
           ${TYPE_EMOJI[h.type]}
         </div>
         <div class="card-info">
