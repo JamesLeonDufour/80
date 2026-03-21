@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find '/c/Users/james/OneDrive/James/Famille LD' -type f -name *.json -o -name *.md -o -name .cursorrules -o -name Makefile)"
+    ]
+  }
+}
