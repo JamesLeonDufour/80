@@ -139,8 +139,8 @@
 
     .card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
     .card-icon {
-      width: 36px; height: 36px; border-radius: 4px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 1.1em;
+      width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+      margin-top: 5px;
     }
     .card-info { flex: 1; min-width: 0; }
     .card-name { font-size: 0.85em; font-weight: 600; color: var(--text); line-height: 1.3; }
@@ -622,9 +622,7 @@ function buildCard(h) {
   return `
     <div class="card" data-name="${h.name}">
       <div class="card-top">
-        <div class="card-icon" style="background:${BG_ALPHA[h.type] || 'rgba(0,0,0,0.04)'};border:1px solid ${CSS_VARS[h.type]}30">
-          ${TYPE_EMOJI[h.type]}
-        </div>
+        <div class="card-icon" style="background:${CSS_VARS[h.type]}"></div>
         <div class="card-info">
           <div class="card-name">${h.name}</div>
           <div class="card-addr">${h.address}</div>
