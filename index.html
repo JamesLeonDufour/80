@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guy Léon-Dufour — 80 ans</title>
+  <meta name="description" content="Célébration des 80 ans de Guy Léon-Dufour — 25 juillet 2026 au Manoir de Bareït" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">Bareït <span class="nav-logo-year">— 2026</span></a>
+      <ul class="nav-links">
+        <li><a href="#evenement">L'Événement</a></li>
+        <li><a href="#programme">Programme</a></li>
+        <li><a href="#rsvp">RSVP</a></li>
+        <li><a href="#acces">Accès</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Menu">&#9776;</button>
+    </div>
+    <ul class="nav-mobile">
+      <li><a href="#evenement">L'Événement</a></li>
+      <li><a href="#programme">Programme</a></li>
+      <li><a href="#rsvp">RSVP</a></li>
+      <li><a href="#acces">Accès</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-media">
+      <!-- YouTube background video — injected by main.js -->
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Le 25 juillet 2026</p>
+      <div class="hero-number">80</div>
+      <h1 class="hero-name">Guy Léon-Dufour</h1>
+      <div class="hero-divider">
+        <span></span><span class="diamond">◆</span><span></span>
+      </div>
+      <p class="hero-subtitle">Une journée pour célébrer<br />un homme exceptionnel</p>
+      <a href="#rsvp" class="btn-primary">Confirmer ma présence</a>
+    </div>
+    <a href="#evenement" class="hero-scroll" aria-label="Défiler">
+      <span class="scroll-line"></span>
+    </a>
+  </section>
+
+  <!-- L'Événement -->
+  <section id="evenement">
+    <div class="container">
+      <div class="section-label">L'Événement</div>
+      <h2 class="section-title">Une journée exceptionnelle<br /><em>au Manoir de Bareït</em></h2>
+      <div class="event-cards">
+        <div class="event-card">
+          <div class="event-icon">📍</div>
+          <h3>Lieu</h3>
+          <p>Manoir de Bareït<br />Brassempouy, Landes<br />40330</p>
+        </div>
+        <div class="event-card">
+          <div class="event-icon">📅</div>
+          <h3>Date</h3>
+          <p>Samedi<br />25 juillet 2026</p>
+        </div>
+        <div class="event-card">
+          <div class="event-icon">✉️</div>
+          <h3>Contact</h3>
+          <p>Pour toute question :<br /><a href="mailto:80@bareit.fr">80@bareit.fr</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programme -->
+  <section id="programme">
+    <div class="container">
+      <div class="section-label">Programme</div>
+      <h2 class="section-title">Le déroulé de la journée</h2>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-time">12h30</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Déjeuner</h3>
+            <p>Retrouvailles et repas festif en famille et entre amis dans les jardins du manoir.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-time">15h00</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Après-midi</h3>
+            <p>Promenades dans le parc, jeux, piscine, tennis — profitez du domaine en toute liberté.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-time">19h30</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>Dîner de gala</h3>
+            <p>Dîner élégant pour clôturer cette journée de célébration en beauté.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- RSVP -->
+  <section id="rsvp">
+    <div class="rsvp-bg"></div>
+    <div class="container rsvp-container">
+      <div class="section-label light">RSVP</div>
+      <h2 class="section-title light">Confirmer votre présence</h2>
+      <p class="rsvp-intro">Merci de répondre avant le <strong>1er juillet 2026</strong>.</p>
+
+      <!--
+        FORMSPREE SETUP:
+        1. Create a free account at formspree.io
+        2. Create a new form → use email 80@bareit.fr
+        3. Replace YOUR_FORM_ID below with your form ID (e.g. xpwzknda)
+      -->
+      <form id="rsvp-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" required placeholder="Votre prénom" />
+          </div>
+          <div class="form-group">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" required placeholder="Votre nom" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="votre@email.com" />
+        </div>
+
+        <div class="form-group">
+          <label>Vous participez à :</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="presence[]" value="dejeuner" />
+              <span>Déjeuner (12h30)</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="presence[]" value="apresmidi" />
+              <span>Après-midi</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="presence[]" value="diner" />
+              <span>Dîner de gala (19h30)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="adultes">Nombre d'adultes</label>
+            <input type="number" id="adultes" name="adultes" min="1" max="20" value="1" />
+          </div>
+          <div class="form-group">
+            <label for="enfants">Nombre d'enfants</label>
+            <input type="number" id="enfants" name="enfants" min="0" max="20" value="0" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regime">Régime alimentaire / Allergies</label>
+          <input type="text" id="regime" name="regime" placeholder="Végétarien, sans gluten, etc. (facultatif)" />
+        </div>
+
+        <div class="form-group">
+          <label for="message">Un mot pour Guy</label>
+          <textarea id="message" name="message" rows="4" placeholder="Un message, un souvenir, une pensée... (facultatif)"></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit">Envoyer ma confirmation</button>
+        <p class="form-notice" id="form-status"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Accès -->
+  <section id="acces">
+    <div class="container">
+      <div class="section-label">Accès</div>
+      <h2 class="section-title">Nous trouver</h2>
+      <div class="acces-grid">
+        <div class="acces-info">
+          <h3>Manoir de Bareït</h3>
+          <p>Brassempouy<br />40330 Landes, France</p>
+          <div class="acces-list">
+            <div class="acces-item">
+              <strong>Depuis Dax</strong>
+              <span>25 min via D947</span>
+            </div>
+            <div class="acces-item">
+              <strong>Depuis Pau</strong>
+              <span>45 min via A65</span>
+            </div>
+            <div class="acces-item">
+              <strong>Depuis Bordeaux</strong>
+              <span>2h via A65 / Dax</span>
+            </div>
+          </div>
+          <a href="https://maps.google.com/?q=Brassempouy+40330" target="_blank" rel="noopener" class="btn-outline">Ouvrir dans Google Maps</a>
+        </div>
+        <div class="acces-map">
+          <iframe
+            title="Carte Manoir de Bareït"
+            src="https://www.openstreetmap.org/export/embed.html?bbox=-0.7474%2C43.6141%2C-0.7074%2C43.6341&layer=mapnik&marker=43.6241%2C-0.7274"
+            width="100%"
+            height="350"
+            frameborder="0"
+            style="border:0"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container footer-inner">
+      <p class="footer-name">Guy Léon-Dufour — 80 ans</p>
+      <p class="footer-date">25 juillet 2026 · Manoir de Bareït · Brassempouy</p>
+      <div class="footer-divider">
+        <span></span><span class="diamond">◆</span><span></span>
+      </div>
+      <p class="footer-contact"><a href="mailto:80@bareit.fr">80@bareit.fr</a></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hébergements · 80 ans à Brassempouy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: rgba(255,255,255,0.07);
+      --text: #f0f0f5;
+      --muted: #8b8fa8;
+      --accent: #7c6af0;
+      --accent2: #a78bfa;
+      --hotel: #60a5fa;
+      --gite: #34d399;
+      --chambre: #fb923c;
+      --venue: #c084fc;
+      --gold: #f9c846;
+      --radius: 14px;
+    }
+
+    html, body { height: 100%; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow: hidden; }
+
+    /* ── HEADER ─────────────────────────────────────────────────────── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 64px;
+      background: rgba(15,17,23,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; padding: 0 24px; gap: 16px;
+    }
+    .header-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--venue));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1em; flex-shrink: 0;
+    }
+    .header-text h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05em; font-weight: 600; color: var(--text);
+      line-height: 1.2;
+    }
+    .header-text p { font-size: 0.72em; color: var(--muted); margin-top: 1px; }
+    .header-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(249,200,70,0.15); border: 1px solid rgba(249,200,70,0.3);
+      color: var(--gold); font-size: 0.72em; font-weight: 600;
+      padding: 4px 12px; border-radius: 20px;
+    }
+    .pill::before { content: '📅'; }
+
+    /* ── LAYOUT ─────────────────────────────────────────────────────── */
+    #app { display: flex; height: 100vh; padding-top: 64px; }
+    #map { flex: 1; position: relative; }
+
+    /* ── SIDEBAR ─────────────────────────────────────────────────────── */
+    #sidebar {
+      width: 360px; flex-shrink: 0;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Filters */
+    #filter-zone {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .filter-label { font-size: 0.68em; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .filter-row { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      display: flex; align-items: center; gap: 5px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75em; font-weight: 500;
+      padding: 6px 12px; border-radius: 8px;
+      border: 1px solid var(--border);
+      background: transparent; color: var(--muted);
+      cursor: pointer; transition: all 0.18s;
+    }
+    .filter-btn:hover { border-color: rgba(255,255,255,0.15); color: var(--text); }
+    .filter-btn .dot { width: 7px; height: 7px; border-radius: 50%; }
+    .filter-btn.active { color: var(--text); background: var(--surface2); border-color: rgba(255,255,255,0.15); }
+    .filter-btn[data-type="all"].active { background: rgba(124,106,240,0.2); border-color: rgba(124,106,240,0.5); color: var(--accent2); }
+    .filter-btn[data-type="hotel"].active { background: rgba(96,165,250,0.15); border-color: rgba(96,165,250,0.4); color: var(--hotel); }
+    .filter-btn[data-type="gite"].active { background: rgba(52,211,153,0.15); border-color: rgba(52,211,153,0.4); color: var(--gite); }
+    .filter-btn[data-type="chambre"].active { background: rgba(251,146,60,0.15); border-color: rgba(251,146,60,0.4); color: var(--chambre); }
+
+    .count-info {
+      padding: 10px 16px;
+      font-size: 0.72em; color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .count-num { font-size: 1.2em; font-weight: 700; color: var(--text); margin-right: 6px; }
+
+    /* Cards list */
+    #list { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
+    #list::-webkit-scrollbar { width: 4px; }
+    #list::-webkit-scrollbar-track { background: transparent; }
+    #list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+    .card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      cursor: pointer;
+      transition: all 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+      opacity: 0; transition: opacity 0.18s;
+      border-radius: 3px 0 0 3px;
+    }
+    .card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .card.active { border-color: rgba(124,106,240,0.4); background: rgba(124,106,240,0.08); }
+    .card.active::before { opacity: 1; }
+
+    .card-top { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+    .card-icon {
+      width: 34px; height: 34px; border-radius: 9px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 0.9em;
+    }
+    .card-info { flex: 1; min-width: 0; }
+    .card-name { font-size: 0.83em; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .card-addr { font-size: 0.7em; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-badge {
+      font-size: 0.62em; font-weight: 600; padding: 2px 8px;
+      border-radius: 6px; white-space: nowrap; flex-shrink: 0;
+    }
+    .card-note { font-size: 0.7em; color: var(--muted); font-style: italic; margin-bottom: 8px; }
+    .card-bottom { display: flex; align-items: center; justify-content: space-between; }
+    .card-dist { display: flex; align-items: center; gap: 4px; font-size: 0.7em; color: var(--muted); }
+    .card-dist::before { content: '📍'; font-size: 0.9em; }
+    .card-links { display: flex; gap: 5px; }
+    .card-link {
+      font-size: 0.66em; font-weight: 600; padding: 3px 9px;
+      border-radius: 6px; text-decoration: none;
+      border: 1px solid; transition: opacity 0.15s;
+    }
+    .card-link:hover { opacity: 0.75; }
+    .link-booking { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.1); }
+    .link-airbnb { color: #fb7185; border-color: rgba(251,113,133,0.3); background: rgba(251,113,133,0.1); }
+    .link-web { color: var(--muted); border-color: rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); }
+
+    /* ── MAP styles ─────────────────────────────────────────────────── */
+    .leaflet-container { background: #1a2035 !important; }
+    .leaflet-popup-content-wrapper {
+      background: var(--surface) !important; border: 1px solid var(--border) !important;
+      border-radius: 12px !important; box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+      padding: 0 !important; overflow: hidden !important; color: var(--text) !important;
+    }
+    .leaflet-popup-tip { background: var(--surface) !important; }
+    .leaflet-popup-content { margin: 0 !important; width: auto !important; min-width: 220px; }
+    .leaflet-control-zoom { border: 1px solid var(--border) !important; border-radius: 10px !important; overflow: hidden; }
+    .leaflet-control-zoom a {
+      background: var(--surface) !important; color: var(--text) !important;
+      border: none !important; border-bottom: 1px solid var(--border) !important;
+      width: 32px !important; height: 32px !important; line-height: 32px !important;
+      font-size: 1em !important;
+    }
+    .leaflet-control-zoom a:last-child { border-bottom: none !important; }
+    .leaflet-control-attribution { background: rgba(15,17,23,0.7) !important; color: var(--muted) !important; font-size: 9px !important; }
+
+    /* Popup inner */
+    .popup-inner { padding: 14px; }
+    .popup-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .popup-emoji { font-size: 1em; }
+    .popup-title { font-size: 0.88em; font-weight: 600; color: var(--text); flex: 1; }
+    .popup-sub { font-size: 0.72em; color: var(--muted); margin-bottom: 6px; }
+    .popup-note { font-size: 0.72em; color: var(--muted); font-style: italic; margin-bottom: 10px; border-top: 1px solid var(--border); padding-top: 8px; }
+    .popup-links { display: flex; gap: 5px; flex-wrap: wrap; }
+    .popup-link {
+      font-size: 0.68em; font-weight: 600; padding: 4px 10px; border-radius: 6px;
+      text-decoration: none; border: 1px solid; transition: opacity 0.15s;
+    }
+    .popup-link:hover { opacity: 0.75; }
+
+    /* Legend overlay */
+    #legend-box {
+      position: absolute; bottom: 20px; left: 16px; z-index: 999;
+      background: rgba(26,29,39,0.92); backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px;
+      min-width: 170px;
+    }
+    .legend-title { font-size: 0.65em; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+    .legend-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 0.75em; color: var(--text); }
+    .legend-row:last-child { margin-bottom: 0; }
+    .leg-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-icon">🎂</div>
+  <div class="header-text">
+    <h1>80 ans à Brassempouy — Hébergements</h1>
+    <p>Rayon 50 km autour de Brassempouy, Landes (40)</p>
+  </div>
+  <div class="header-right">
+    <div class="pill">25 juillet 2026</div>
+  </div>
+</header>
+
+<div id="app">
+  <div id="map">
+    <div id="legend-box">
+      <div class="legend-title">Légende</div>
+      <div class="legend-row"><div class="leg-dot" style="background:var(--venue)"></div>Lieu de fête</div>
+      <div class="legend-row"><div class="leg-dot" style="background:var(--hotel)"></div>Hôtel</div>
+      <div class="legend-row"><div class="leg-dot" style="background:var(--gite)"></div>Gîte</div>
+      <div class="legend-row"><div class="leg-dot" style="background:var(--chambre)"></div>Chambre d'hôtes</div>
+    </div>
+  </div>
+  <div id="sidebar">
+    <div id="filter-zone">
+      <div class="filter-label">Filtrer par type</div>
+      <div class="filter-row">
+        <button class="filter-btn active" data-type="all">
+          <span class="dot" style="background:var(--accent2)"></span>Tous
+        </button>
+        <button class="filter-btn" data-type="hotel">
+          <span class="dot" style="background:var(--hotel)"></span>Hôtels
+        </button>
+        <button class="filter-btn" data-type="gite">
+          <span class="dot" style="background:var(--gite)"></span>Gîtes
+        </button>
+        <button class="filter-btn" data-type="chambre">
+          <span class="dot" style="background:var(--chambre)"></span>Ch. d'hôtes
+        </button>
+      </div>
+    </div>
+
+    <div class="count-info">
+      <span id="count-label"><span class="count-num" id="count-num">—</span> hébergements</span>
+      <span style="font-size:0.68em">Triés par distance</span>
+    </div>
+
+    <div id="list"></div>
+  </div>
+</div>
+
+<script>
+const CSS_VARS = {
+  venue:   '#c084fc',
+  hotel:   '#60a5fa',
+  gite:    '#34d399',
+  chambre: '#fb923c'
+};
+
+const VENUE = {
+  name: "Brassempouy",
+  sub: "Lieu de la fête 🎉",
+  lat: 43.621, lng: -0.767, type: "venue",
+  address: "Brassempouy, 40330 Landes",
+  note: "Village de la Dame de Brassempouy",
+  web: "https://www.brasempouy.fr"
+};
+
+const HEBERGEMENTS = [
+  // ── SUR PLACE ──
+  {
+    name: "Gîte Minjounet",
+    lat: 43.622, lng: -0.769, type: "gite", dist: 1,
+    address: "Brassempouy, 40330",
+    note: "Maison landaise authentique · piscine chauffée partagée · terrasse",
+    airbnb: "https://www.airbnb.fr/s/Brassempouy",
+    web: "https://www.tourismelandes.com/hebergement-locatif/gite-minjounet-hloaqu040v50r8ym/"
+  },
+  // ── AMOU ~8 km ──
+  {
+    name: "Mirailh",
+    lat: 43.596, lng: -0.752, type: "chambre", dist: 8,
+    address: "40330 Amou",
+    note: "Tennis · parking · cadre verdoyant",
+    booking: "https://www.booking.com/city/fr/amou.html"
+  },
+  // ── MONTFORT-EN-CHALOSSE ~10 km ──
+  {
+    name: "Logis Hôtel Aux Tauzins ★★★",
+    lat: 43.703, lng: -0.791, type: "hotel", dist: 10,
+    address: "Route de Dax, 40380 Montfort-en-Chalosse",
+    note: "Piscine extérieure · restaurant gastronomique · jardin paysager",
+    booking: "https://www.booking.com/city/fr/montfort-en-chalosse.html"
+  },
+  // ── COUDURES ~12 km ──
+  {
+    name: "Ch. d'hôtes Brameloup",
+    lat: 43.636, lng: -0.685, type: "chambre", dist: 12,
+    address: "40500 Coudures",
+    note: "Piscine · parc boisé · vue sur la Chalosse",
+    web: "https://www.gites-de-france-landes.com/Chambre-d-hotes-Coudures-Brameloup-jardin-Ovale-Adour-Chalosse-Tursan-40G30435.html"
+  },
+  // ── HAGETMAU ~15 km ──
+  {
+    name: "Logis des Lacs d'Halco ★★★★",
+    lat: 43.663, lng: -0.592, type: "hotel", dist: 15,
+    address: "Route des Lacs, 40700 Hagetmau",
+    note: "Piscine · restaurant · parc · vue lac",
+    booking: "https://www.booking.com/hotel/fr/logis-des-lacs-d-halco.html"
+  },
+  {
+    name: "Logis Hôtel La Crémaillère ★★★",
+    lat: 43.657, lng: -0.596, type: "hotel", dist: 15,
+    address: "Place de la République, 40700 Hagetmau",
+    note: "Piscine extérieure · bar · parking",
+    booking: "https://www.booking.com/city/fr/hagetmau.html"
+  },
+  {
+    name: "Le Relais Basque",
+    lat: 43.660, lng: -0.594, type: "hotel", dist: 15,
+    address: "40700 Hagetmau",
+    note: "Restaurant · terrasse · bon rapport qualité-prix",
+    booking: "https://www.booking.com/city/fr/hagetmau.html"
+  },
+  {
+    name: "La Chaise Haute",
+    lat: 43.655, lng: -0.600, type: "chambre", dist: 15,
+    address: "40700 Hagetmau",
+    note: "Kitchenette · terrasse · vue jardin · parquet",
+    booking: "https://www.booking.com/hotel/fr/la-chaise-haute.html"
+  },
+  {
+    name: "Ch. d'hôtes Pargadot",
+    lat: 43.661, lng: -0.589, type: "chambre", dist: 15,
+    address: "Pargadot, 40700 Hagetmau",
+    note: "Ferme landaise · cour fleurie · sur la voie jacquaire",
+    web: "https://www.gites-de-france-landes.com/Chambre-d-hotes-Hagetmau-Pargadot-Adour-Chalosse-Tursan-40G30404.html"
+  },
+  // ── SAINT-SEVER ~28 km ──
+  {
+    name: "Ch. d'hôtes La Toast Vin",
+    lat: 43.757, lng: -0.561, type: "chambre", dist: 28,
+    address: "40500 Saint-Sever",
+    note: "Piscine · vue jardin · ambiance vignoble",
+    booking: "https://www.booking.com/hotel/fr/chambres-d-hotes-la-toast-vin.html"
+  },
+  // ── ORTHEZ ~30 km ──
+  {
+    name: "Kyriad Hôtel Orthez ★★★",
+    lat: 43.489, lng: -0.773, type: "hotel", dist: 30,
+    address: "Route de Pau, 64300 Orthez",
+    note: "Restaurant · parking · mi-chemin Bayonne–Pau",
+    booking: "https://www.booking.com/hotel/fr/kyriad-orthez.html",
+    web: "https://orthez.kyriad.com"
+  },
+  {
+    name: "Auberge du Relais · Bérenx",
+    lat: 43.497, lng: -0.810, type: "hotel", dist: 32,
+    address: "Bérenx, 64300 Orthez",
+    note: "Hôtel-restaurant · groupes bienvenus · cadre rural",
+    web: "https://www.auberge-du-relais.com"
+  },
+  // ── DAX ~35 km ──
+  {
+    name: "Hôtel & Spa Le Splendid ★★★★",
+    lat: 43.710, lng: -1.054, type: "hotel", dist: 35,
+    address: "2 Cours de Verdun, 40100 Dax",
+    note: "Bord de l'Adour · spa thermal · #1 Dax",
+    booking: "https://www.booking.com/hotel/fr/splendid-dax.html",
+    web: "https://www.splendid-dax.fr"
+  },
+  {
+    name: "Grand Hôtel de Dax ★★★",
+    lat: 43.708, lng: -1.053, type: "hotel", dist: 35,
+    address: "Rue Temple, 40100 Dax",
+    note: "Centre thermal · centre-ville · parking",
+    booking: "https://www.booking.com/city/fr/dax.html"
+  },
+  {
+    name: "Ibis Styles Dax Centre ★★★",
+    lat: 43.712, lng: -1.051, type: "hotel", dist: 35,
+    address: "40100 Dax",
+    note: "Rapport qualité-prix · petit-déjeuner inclus",
+    booking: "https://www.booking.com/city/fr/dax.html"
+  },
+  // ── SALIES-DE-BÉARN ~35 km ──
+  {
+    name: "Hôtel du Parc ★★★",
+    lat: 43.469, lng: -0.926, type: "hotel", dist: 35,
+    address: "Bd Saint-Guily, 64270 Salies-de-Béarn",
+    note: "Monument historique 1891 · toit style Eiffel · 50 chambres",
+    booking: "https://www.booking.com/city/fr/salies-de-bearn.html",
+    web: "https://www.hotelsalies.com"
+  },
+  {
+    name: "Hôtel Hélio-Golf ★★★",
+    lat: 43.474, lng: -0.919, type: "hotel", dist: 35,
+    address: "64270 Salies-de-Béarn",
+    note: "Golf · vélos gratuits · jardin · piscine",
+    booking: "https://www.booking.com/city/fr/salies-de-bearn.html"
+  },
+  // ── AIRE-SUR-L'ADOUR ~48 km ──
+  {
+    name: "N'Atura Hôtel ★★",
+    lat: 43.701, lng: -0.266, type: "hotel", dist: 48,
+    address: "Route de Pau, 32800 Aire-sur-l'Adour",
+    note: "Bord de l'Adour · piscine extérieure",
+    booking: "https://www.booking.com/city/fr/aire-sur-l-adour.html"
+  },
+  {
+    name: "Hôtel Aliotel ★★★",
+    lat: 43.697, lng: -0.270, type: "hotel", dist: 48,
+    address: "32800 Aire-sur-l'Adour",
+    note: "Piscine · tennis · 5 km du centre",
+    booking: "https://www.booking.com/city/fr/aire-sur-l-adour.html"
+  }
+];
+
+// ── Map init ──────────────────────────────────────────────────────────────
+const map = L.map('map', { zoomControl: false }).setView([VENUE.lat, VENUE.lng], 9);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
+  subdomains: 'abcd', maxZoom: 19
+}).addTo(map);
+
+L.control.zoom({ position: 'topright' }).addTo(map);
+
+// 50 km circle
+L.circle([VENUE.lat, VENUE.lng], {
+  radius: 50000,
+  color: '#7c6af0', weight: 1.5, dashArray: '5 6',
+  fillColor: '#7c6af0', fillOpacity: 0.04
+}).addTo(map);
+
+// ── Marker factory ────────────────────────────────────────────────────────
+function makeIcon(color, size = 28, isVenue = false) {
+  const pulse = isVenue ? `
+    <circle cx="14" cy="14" r="13" fill="${color}" fill-opacity="0.15">
+      <animate attributeName="r" from="11" to="18" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.4" to="0" dur="2s" repeatCount="indefinite"/>
+    </circle>` : '';
+  return L.divIcon({
+    className: '',
+    html: `<svg width="${size+4}" height="${size+4}" viewBox="0 0 ${size+4} ${size+4}" xmlns="http://www.w3.org/2000/svg">
+      ${pulse}
+      <circle cx="${(size+4)/2}" cy="${(size+4)/2}" r="${size/2}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="1.5"/>
+      <circle cx="${(size+4)/2}" cy="${(size+4)/2}" r="${size/4}" fill="${color}"/>
+    </svg>`,
+    iconSize: [size+4, size+4],
+    iconAnchor: [(size+4)/2, (size+4)/2],
+    popupAnchor: [0, -(size/2)-4]
+  });
+}
+
+// ── Popup builder ─────────────────────────────────────────────────────────
+const TYPE_LABEL = { hotel: '🏨 Hôtel', gite: '🏡 Gîte', chambre: '🌸 Chambre d\'hôtes', venue: '🎂 Lieu de fête' };
+const TYPE_EMOJI = { hotel: '🏨', gite: '🏡', chambre: '🌸', venue: '🎂' };
+
+function buildLinks(h) {
+  let html = '<div class="popup-links">';
+  if (h.booking) html += `<a href="${h.booking}" target="_blank" class="popup-link link-booking">Booking</a>`;
+  if (h.airbnb)  html += `<a href="${h.airbnb}"  target="_blank" class="popup-link link-airbnb">Airbnb</a>`;
+  if (h.web)     html += `<a href="${h.web}"     target="_blank" class="popup-link link-web">Site web</a>`;
+  if (!h.booking && !h.airbnb && !h.web) html += `<span style="font-size:0.7em;color:#8b8fa8">Pas de lien direct</span>`;
+  html += '</div>';
+  return html;
+}
+
+function buildPopup(h, isVenue = false) {
+  return `<div class="popup-inner">
+    <div class="popup-header">
+      <span class="popup-emoji">${TYPE_EMOJI[h.type]}</span>
+      <span class="popup-title">${h.name}</span>
+    </div>
+    <div class="popup-sub">${isVenue ? h.sub : `${TYPE_LABEL[h.type]} · ${h.dist} km de Brassempouy`}</div>
+    <div class="popup-sub">${h.address}</div>
+    ${h.note ? `<div class="popup-note">${h.note}</div>` : ''}
+    ${buildLinks(h)}
+  </div>`;
+}
+
+// ── Venue marker ──────────────────────────────────────────────────────────
+L.marker([VENUE.lat, VENUE.lng], { icon: makeIcon(CSS_VARS.venue, 32, true), zIndexOffset: 2000 })
+  .addTo(map)
+  .bindPopup(buildPopup(VENUE, true), { maxWidth: 260 });
+
+// ── Hébergement markers ───────────────────────────────────────────────────
+const allMarkers = HEBERGEMENTS.map(h => {
+  const m = L.marker([h.lat, h.lng], { icon: makeIcon(CSS_VARS[h.type]) })
+    .addTo(map)
+    .bindPopup(buildPopup(h), { maxWidth: 260 });
+  return { h, m };
+});
+
+// ── Sidebar card builder ──────────────────────────────────────────────────
+const BG_ALPHA = { hotel: 'rgba(96,165,250,0.1)', gite: 'rgba(52,211,153,0.1)', chambre: 'rgba(251,146,60,0.1)' };
+
+function buildCard(h) {
+  const color = CSS_VARS[h.type];
+  const links = [
+    h.booking ? `<a href="${h.booking}" target="_blank" class="card-link link-booking">Booking</a>` : '',
+    h.airbnb  ? `<a href="${h.airbnb}"  target="_blank" class="card-link link-airbnb">Airbnb</a>`  : '',
+    h.web     ? `<a href="${h.web}"     target="_blank" class="card-link link-web">Web</a>`        : ''
+  ].join('');
+
+  const badge = TYPE_LABEL[h.type];
+  const badgeBg = `${color}22`; const badgeBorder = `${color}44`;
+
+  return `
+    <div class="card" data-name="${h.name}" style="--card-color:${color}">
+      <div class="card-top">
+        <div class="card-icon" style="background:${BG_ALPHA[h.type] || 'rgba(255,255,255,0.05)'}">
+          ${TYPE_EMOJI[h.type]}
+        </div>
+        <div class="card-info">
+          <div class="card-name">${h.name}</div>
+          <div class="card-addr">${h.address}</div>
+        </div>
+        <div class="card-badge" style="background:${badgeBg};border:1px solid ${badgeBorder};color:${color}">
+          ${h.dist} km
+        </div>
+      </div>
+      ${h.note ? `<div class="card-note">${h.note}</div>` : ''}
+      <div class="card-bottom">
+        <div class="card-dist">${h.dist} km de Brassempouy</div>
+        <div class="card-links">${links || '<span style="font-size:0.66em;color:#555">—</span>'}</div>
+      </div>
+    </div>`;
+}
+
+// ── Render + Filter ───────────────────────────────────────────────────────
+let activeFilter = 'all';
+
+function render() {
+  const list = document.getElementById('list');
+  const sorted = [...HEBERGEMENTS].sort((a, b) => a.dist - b.dist);
+  const filtered = activeFilter === 'all' ? sorted : sorted.filter(h => h.type === activeFilter);
+
+  document.getElementById('count-num').textContent = filtered.length;
+  list.innerHTML = filtered.map(buildCard).join('');
+
+  // Toggle map markers
+  allMarkers.forEach(({ h, m }) => {
+    if (activeFilter === 'all' || h.type === activeFilter) { if (!map.hasLayer(m)) m.addTo(map); }
+    else { if (map.hasLayer(m)) map.removeLayer(m); }
+  });
+
+  // Card click → fly + popup
+  list.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.tagName === 'A') return;
+      const name = card.dataset.name;
+      const found = allMarkers.find(({ h }) => h.name === name);
+      if (!found) return;
+      map.flyTo([found.h.lat, found.h.lng], 13, { duration: 0.8, easeLinearity: 0.3 });
+      setTimeout(() => found.m.openPopup(), 850);
+      list.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+    });
+  });
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.type;
+    render();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
