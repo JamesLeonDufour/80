@@ -114,7 +114,7 @@ window.addEventListener('scroll', checkReveal, { passive: true });
 window.addEventListener('load', initReveal);
 
 /* =============================================
-   RSVP FORM — AJAX SUBMISSION (Formspree)
+   RSVP FORM — AJAX SUBMISSION (Web3Forms)
    ============================================= */
 var form = document.getElementById('rsvp-form');
 var status = document.getElementById('form-status');
@@ -125,26 +125,23 @@ if (form) {
 
     var data = new FormData(form);
 
-    fetch(form.action, {
+    fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       body: data,
-      headers: { Accept: 'application/json' },
     })
-      .then(function (res) {
-        if (res.ok) {
+      .then(function (res) { return res.json(); })
+      .then(function (json) {
+        if (json.success) {
           status.textContent = 'Merci ! Votre confirmation a bien été reçue.';
-          status.style.color = '#c9a84c';
+          status.style.color = '#b8902e';
           form.reset();
         } else {
-          return res.json().then(function (json) {
-            throw new Error(json.error || 'Erreur');
-          });
+          throw new Error(json.message || 'Erreur');
         }
       })
       .catch(function () {
-        status.textContent =
-          'Une erreur s\'est produite. Veuillez écrire directement à 80@bareit.fr';
-        status.style.color = '#e07070';
+        status.textContent = 'Une erreur s\'est produite. Écrivez-nous à 80@bareit.fr';
+        status.style.color = '#c0392b';
       });
   });
 }

@@ -186,12 +186,16 @@
       <p class="rsvp-intro">Merci de répondre avant le <strong>1er juillet 2026</strong>.</p>
 
       <!--
-        FORMSPREE SETUP:
-        1. Create a free account at formspree.io
-        2. Create a new form → use email 80@bareit.fr
-        3. Replace YOUR_FORM_ID below with your form ID (e.g. xpwzknda)
+        WEB3FORMS SETUP (one step):
+        1. Go to https://web3forms.com
+        2. Enter 80@bareit.fr → click "Create Access Key"
+        3. Check your inbox, copy the key
+        4. Replace YOUR_ACCESS_KEY below with it
       -->
-      <form id="rsvp-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form id="rsvp-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY" />
+        <input type="hidden" name="subject" value="RSVP — 80 ans de Guy Léon-Dufour" />
+        <input type="hidden" name="from_name" value="Site 80.bareit.fr" />
         <div class="form-row">
           <div class="form-group">
             <label for="prenom">Prénom</label>
