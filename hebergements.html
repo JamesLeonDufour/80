@@ -280,174 +280,174 @@
 </div>
 
 <script>
+// Dates for booking links
+const CHECKIN  = '2026-07-25';
+const CHECKOUT = '2026-07-26';
+
+function bookingUrl(slug)  { return `https://www.booking.com/hotel/fr/${slug}.html?checkin=${CHECKIN}&checkout=${CHECKOUT}`; }
+function bookingCity(city) { return `https://www.booking.com/city/fr/${city}.html?checkin=${CHECKIN}&checkout=${CHECKOUT}`; }
+function airbnbUrl(id)     { return `https://www.airbnb.fr/rooms/${id}?check_in=${CHECKIN}&check_out=${CHECKOUT}`; }
+
 const CSS_VARS = {
-  venue:   '#7c3aed',
-  hotel:   '#2563eb',
-  gite:    '#059669',
-  chambre: '#ea580c'
+  venue:   '#b8902e',   // gold — the manor
+  hotel:   '#1d4ed8',   // blue
+  gite:    '#15803d',   // green
+  chambre: '#c2410c'    // orange
 };
 
 const VENUE = {
   name: "Manoir de Bareït",
-  sub: "Lieu de la fête 🎉",
+  sub: "Lieu de la fête · 25 juillet 2026",
   lat: 43.63179, lng: -0.69429, type: "venue",
   address: "Brassempouy, 40330 Landes",
-  note: "Guy Léon-Dufour — 25 juillet 2026",
-  web: "https://www.bareit.fr"
+  note: "Guy Léon-Dufour — 80 ans",
+  web: "https://80.bareit.fr"
 };
 
 const HEBERGEMENTS = [
-  // ── SUR PLACE ──
+  // ── BRASSEMPOUY ──────────────────────────────────────────────────
+  {
+    name: "Gîte Tauzia",
+    lat: 43.63879, lng: -0.70401, type: "gite", dist: 1,
+    address: "1033 Chemin des Camines, 40330 Brassempouy",
+    note: "12 personnes · 6 chambres · jardin BBQ · parking · depuis ~168€/nuit",
+    booking: bookingUrl("gite-tauzia"),
+    web: "https://www.gites.fr/ho906057"
+  },
   {
     name: "Gîte Minjounet",
-    lat: 43.622, lng: -0.769, type: "gite", dist: 1,
-    address: "Brassempouy, 40330",
-    note: "Maison landaise authentique · piscine chauffée partagée · terrasse",
-    airbnb: "https://www.airbnb.fr/s/Brassempouy",
-    web: "https://www.tourismelandes.com/hebergement-locatif/gite-minjounet-hloaqu040v50r8ym/"
+    lat: 43.63763, lng: -0.70359, type: "gite", dist: 1,
+    address: "840 Chemin des Camines, 40330 Brassempouy",
+    note: "4 personnes · piscine chauffée partagée · terrasse · depuis ~98€/nuit",
+    airbnb: airbnbUrl("51260142"),
+    web: "https://www.giteminjounet.fr"
   },
-  // ── AMOU ~8 km ──
+  // ── GAUJACQ ~5 km ────────────────────────────────────────────────
   {
-    name: "Mirailh",
-    lat: 43.596, lng: -0.752, type: "chambre", dist: 8,
-    address: "40330 Amou",
-    note: "Tennis · parking · cadre verdoyant",
-    booking: "https://www.booking.com/city/fr/amou.html"
+    name: "Domaine de Laurolie",
+    lat: 43.64007, lng: -0.74879, type: "chambre", dist: 5,
+    address: "292 Chemin de Cap de Lanne, 40330 Gaujacq",
+    note: "Piscine · jardin · tennis de table · proche Château de Gaujacq · depuis ~75€/nuit",
+    booking: bookingUrl("le-domaine-de-laurolie-gaujacq"),
+    web: "https://domaine-laurolie.fr"
   },
-  // ── MONTFORT-EN-CHALOSSE ~10 km ──
   {
-    name: "Logis Hôtel Aux Tauzins ★★★",
-    lat: 43.703, lng: -0.791, type: "hotel", dist: 10,
-    address: "Route de Dax, 40380 Montfort-en-Chalosse",
-    note: "Piscine extérieure · restaurant gastronomique · jardin paysager",
-    booking: "https://www.booking.com/city/fr/montfort-en-chalosse.html"
+    name: "Ch. d'hôtes Le Sarrailh",
+    lat: 43.6401, lng: -0.7406, type: "chambre", dist: 5,
+    address: "Sarrailh, 40330 Gaujacq",
+    note: "Piscine privée chauffée · petit-déj inclus · table d'hôtes sur demande · ferme restaurée",
+    booking: bookingUrl("chambres-d-ha-tes-au-sarrailh.fr"),
+    web: "https://www.guide-des-landes.com/fr/tourisme/se-loger/chambres-d-hotes/gaujacq-107/le-sarrailh-369.html"
   },
-  // ── COUDURES ~12 km ──
+  // ── AMOU ~8 km ───────────────────────────────────────────────────
+  {
+    name: "Hôtel-Restaurant Le Commerce ★★",
+    lat: 43.5993, lng: -0.7576, type: "hotel", dist: 8,
+    address: "Place de la Poste, 40330 Amou",
+    note: "Logis · familial depuis 1850 · restaurant gastronomique · au bord du Luy de Béarn · depuis ~55€/nuit",
+    booking: bookingUrl("darracq-le-commerce"),
+    web: "https://www.hotelducommerce-amou.com"
+  },
+  // ── MONTFORT-EN-CHALOSSE ~10 km ──────────────────────────────────
+  {
+    name: "Logis Aux Tauzins ★★★",
+    lat: 43.7093, lng: -0.8236, type: "hotel", dist: 10,
+    address: "547 Route Raphaël Lonne, 40380 Montfort-en-Chalosse",
+    note: "Piscine extérieure · restaurant gastronomique (4 générations) · mini-golf · vue Chalosse · depuis ~70€/nuit",
+    booking: bookingUrl("aux-tauzins-montfort"),
+    web: "https://auxtauzins.com"
+  },
+  {
+    name: "Cabane Papyjotte",
+    lat: 43.70087, lng: -0.85853, type: "chambre", dist: 10,
+    address: "150 Chemin de Navarri, 40380 Montfort-en-Chalosse",
+    note: "Cabane dans les arbres · petit-déj livré par poulie · séjour unique · Gîtes de France · depuis ~120€/nuit",
+    web: "https://www.gites-de-france.com/en/nouvelle-aquitaine/landes/cabane-papyjotte-40g30403"
+  },
+  // ── COUDURES ~15 km ──────────────────────────────────────────────
   {
     name: "Ch. d'hôtes Brameloup",
-    lat: 43.636, lng: -0.685, type: "chambre", dist: 12,
-    address: "40500 Coudures",
-    note: "Piscine · parc boisé · vue sur la Chalosse",
+    lat: 43.6897, lng: -0.5937, type: "chambre", dist: 15,
+    address: "Coudures, 40330 Landes",
+    note: "Piscine (juin–sept) · jardin · 5★ (525 avis) · petit-déj inclus · depuis ~90€/nuit",
     web: "https://www.gites-de-france-landes.com/Chambre-d-hotes-Coudures-Brameloup-jardin-Ovale-Adour-Chalosse-Tursan-40G30435.html"
   },
-  // ── HAGETMAU ~15 km ──
   {
-    name: "Logis des Lacs d'Halco ★★★★",
-    lat: 43.663, lng: -0.592, type: "hotel", dist: 15,
-    address: "Route des Lacs, 40700 Hagetmau",
-    note: "Piscine · restaurant · parc · vue lac",
-    booking: "https://www.booking.com/hotel/fr/logis-des-lacs-d-halco.html"
+    name: "Gîte Miclaube",
+    lat: 43.6907, lng: -0.5914, type: "gite", dist: 15,
+    address: "Coudures, 40330 Landes",
+    note: "6 personnes · piscine privée 8×4m · borne recharge VE · depuis ~480€/semaine",
+    web: "https://www.gites-de-france-landes.com/Gite-Coudures-Miclaube-Adour-Chalosse-Tursan-40G10389.html"
+  },
+  // ── HAGETMAU ~15 km ──────────────────────────────────────────────
+  {
+    name: "Hôtel des Lacs d'Halco ★★★★",
+    lat: 43.647, lng: -0.594, type: "hotel", dist: 15,
+    address: "Route de Cazalis, 40700 Hagetmau",
+    note: "Piscine intérieure panoramique · restaurant gastronomique · parc 2,5 ha · depuis ~135€/nuit",
+    booking: bookingUrl("logis-des-lacs-d-halco"),
+    web: "https://www.hotel-des-lacs-dhalco.fr"
   },
   {
-    name: "Logis Hôtel La Crémaillère ★★★",
-    lat: 43.657, lng: -0.596, type: "hotel", dist: 15,
-    address: "Place de la République, 40700 Hagetmau",
-    note: "Piscine extérieure · bar · parking",
-    booking: "https://www.booking.com/city/fr/hagetmau.html"
-  },
-  {
-    name: "Le Relais Basque",
-    lat: 43.660, lng: -0.594, type: "hotel", dist: 15,
-    address: "40700 Hagetmau",
-    note: "Restaurant · terrasse · bon rapport qualité-prix",
-    booking: "https://www.booking.com/city/fr/hagetmau.html"
-  },
-  {
-    name: "La Chaise Haute",
-    lat: 43.655, lng: -0.600, type: "chambre", dist: 15,
-    address: "40700 Hagetmau",
-    note: "Kitchenette · terrasse · vue jardin · parquet",
-    booking: "https://www.booking.com/hotel/fr/la-chaise-haute.html"
+    name: "La Petite Couronne ★★★",
+    lat: 43.715, lng: -0.682, type: "hotel", dist: 15,
+    address: "1460 Route d'Amou, 40700 Saint-Cricq-Chalosse",
+    note: "Écolodge · piscine · spa · lofts & cabane · certifié Écolabel européen · depuis ~85€/nuit",
+    web: "https://www.hotel-lapetitecouronne.com"
   },
   {
     name: "Ch. d'hôtes Pargadot",
-    lat: 43.661, lng: -0.589, type: "chambre", dist: 15,
+    lat: 43.6508, lng: -0.6022, type: "chambre", dist: 15,
     address: "Pargadot, 40700 Hagetmau",
-    note: "Ferme landaise · cour fleurie · sur la voie jacquaire",
+    note: "Ferme landaise fleurie · voie jacquaire · 5★ (524 avis) · depuis ~49€/nuit petit-déj inclus",
     web: "https://www.gites-de-france-landes.com/Chambre-d-hotes-Hagetmau-Pargadot-Adour-Chalosse-Tursan-40G30404.html"
   },
-  // ── SAINT-SEVER ~28 km ──
+  // ── SAINT-SEVER ~28 km ───────────────────────────────────────────
+  {
+    name: "Hôtel Les Arceaux",
+    lat: 43.7585, lng: -0.5750, type: "hotel", dist: 28,
+    address: "23 Rue des Arceaux, 40500 Saint-Sever",
+    note: "7 chambres · brasserie locale · à 6 min à pied de l'Abbaye · depuis ~64€/nuit",
+    booking: bookingUrl("les-arceaux"),
+    web: "http://www.hotel-arceaux-saint-sever.com"
+  },
   {
     name: "Ch. d'hôtes La Toast Vin",
-    lat: 43.757, lng: -0.561, type: "chambre", dist: 28,
-    address: "40500 Saint-Sever",
-    note: "Piscine · vue jardin · ambiance vignoble",
-    booking: "https://www.booking.com/hotel/fr/chambres-d-hotes-la-toast-vin.html"
+    lat: 43.7595, lng: -0.5740, type: "chambre", dist: 28,
+    address: "5 Rue Albert Larrde, 40500 Saint-Sever",
+    note: "#1 Saint-Sever · 5 chambres · hôte sommelier · dégustation de vins · depuis ~60€/nuit",
+    booking: bookingUrl("chambres-d-hotes-la-toast-vin"),
+    web: "https://www.tripadvisor.com/Hotel_Review-g2137447-d6428411"
   },
-  // ── ORTHEZ ~30 km ──
+  // ── BÉRENX / ORTHEZ ~28–30 km ────────────────────────────────────
   {
-    name: "Kyriad Hôtel Orthez ★★★",
-    lat: 43.489, lng: -0.773, type: "hotel", dist: 30,
+    name: "Auberge du Relais ★★★",
+    lat: 43.537, lng: -0.756, type: "hotel", dist: 28,
+    address: "460 Grande Route, 64300 Bérenx",
+    note: "Logis · piscine chauffée · restaurant (Chef Marie Larrouture) · 9/10 (880 avis) · depuis ~74€/nuit",
+    booking: bookingUrl("auberge-du-relais"),
+    web: "https://www.auberge-du-relais.com"
+  },
+  {
+    name: "Kyriad Orthez ★★★",
+    lat: 43.4836, lng: -0.7553, type: "hotel", dist: 30,
     address: "Route de Pau, 64300 Orthez",
-    note: "Restaurant · parking · mi-chemin Bayonne–Pau",
-    booking: "https://www.booking.com/hotel/fr/kyriad-orthez.html",
+    note: "24 chambres · restaurant · parking · accès A64 · depuis ~67€/nuit",
+    booking: bookingUrl("kyriad-orthez"),
     web: "https://orthez.kyriad.com"
   },
   {
-    name: "Auberge du Relais · Bérenx",
-    lat: 43.497, lng: -0.810, type: "hotel", dist: 32,
-    address: "Bérenx, 64300 Orthez",
-    note: "Hôtel-restaurant · groupes bienvenus · cadre rural",
-    web: "https://www.auberge-du-relais.com"
-  },
-  // ── DAX ~35 km ──
-  {
-    name: "Hôtel & Spa Le Splendid ★★★★",
-    lat: 43.710, lng: -1.054, type: "hotel", dist: 35,
-    address: "2 Cours de Verdun, 40100 Dax",
-    note: "Bord de l'Adour · spa thermal · #1 Dax",
-    booking: "https://www.booking.com/hotel/fr/splendid-dax.html",
-    web: "https://www.splendid-dax.fr"
-  },
-  {
-    name: "Grand Hôtel de Dax ★★★",
-    lat: 43.708, lng: -1.053, type: "hotel", dist: 35,
-    address: "Rue Temple, 40100 Dax",
-    note: "Centre thermal · centre-ville · parking",
-    booking: "https://www.booking.com/city/fr/dax.html"
-  },
-  {
-    name: "Ibis Styles Dax Centre ★★★",
-    lat: 43.712, lng: -1.051, type: "hotel", dist: 35,
-    address: "40100 Dax",
-    note: "Rapport qualité-prix · petit-déjeuner inclus",
-    booking: "https://www.booking.com/city/fr/dax.html"
-  },
-  // ── SALIES-DE-BÉARN ~35 km ──
-  {
-    name: "Hôtel du Parc ★★★",
-    lat: 43.469, lng: -0.926, type: "hotel", dist: 35,
-    address: "Bd Saint-Guily, 64270 Salies-de-Béarn",
-    note: "Monument historique 1891 · toit style Eiffel · 50 chambres",
-    booking: "https://www.booking.com/city/fr/salies-de-bearn.html",
-    web: "https://www.hotelsalies.com"
-  },
-  {
-    name: "Hôtel Hélio-Golf ★★★",
-    lat: 43.474, lng: -0.919, type: "hotel", dist: 35,
-    address: "64270 Salies-de-Béarn",
-    note: "Golf · vélos gratuits · jardin · piscine",
-    booking: "https://www.booking.com/city/fr/salies-de-bearn.html"
-  },
-  // ── AIRE-SUR-L'ADOUR ~48 km ──
-  {
-    name: "N'Atura Hôtel ★★",
-    lat: 43.701, lng: -0.266, type: "hotel", dist: 48,
-    address: "Route de Pau, 32800 Aire-sur-l'Adour",
-    note: "Bord de l'Adour · piscine extérieure",
-    booking: "https://www.booking.com/city/fr/aire-sur-l-adour.html"
-  },
-  {
-    name: "Hôtel Aliotel ★★★",
-    lat: 43.697, lng: -0.270, type: "hotel", dist: 48,
-    address: "32800 Aire-sur-l'Adour",
-    note: "Piscine · tennis · 5 km du centre",
-    booking: "https://www.booking.com/city/fr/aire-sur-l-adour.html"
+    name: "Greet Hôtel Orthez ★★★",
+    lat: 43.491, lng: -0.760, type: "hotel", dist: 30,
+    address: "Avenue Marcel Paul, 64300 Biron (Orthez)",
+    note: "Piscine eau salée · fitness · éco-responsable · buffet local · depuis ~60€/nuit",
+    booking: bookingUrl("greet-orthez-bearn"),
+    web: "https://all.accor.com/hotel/B8C5/index.en.shtml"
   }
 ];
 
-// ── Map init ──────────────────────────────────────────────────────────────
-const map = L.map('map', { zoomControl: false }).setView([VENUE.lat, VENUE.lng], 10);
+// ── Map init ───────────────────────────────────────────────────────────────
+const map = L.map('map', { zoomControl: false }).setView([VENUE.lat, VENUE.lng], 11);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/">CARTO</a>',
@@ -456,43 +456,78 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 
 L.control.zoom({ position: 'topright' }).addTo(map);
 
-// 50 km circle
+// 30 km radius circle
 L.circle([VENUE.lat, VENUE.lng], {
-  radius: 50000,
-  color: '#b8902e', weight: 1.5, dashArray: '5 6',
-  fillColor: '#b8902e', fillOpacity: 0.03
+  radius: 30000,
+  color: '#b8902e', weight: 1.5, dashArray: '6 5',
+  fillColor: '#b8902e', fillOpacity: 0.04
 }).addTo(map);
 
-// ── Marker factory ────────────────────────────────────────────────────────
-function makeIcon(color, size = 28, isVenue = false) {
-  const pulse = isVenue ? `
-    <circle cx="14" cy="14" r="13" fill="${color}" fill-opacity="0.15">
-      <animate attributeName="r" from="11" to="18" dur="2s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" from="0.4" to="0" dur="2s" repeatCount="indefinite"/>
-    </circle>` : '';
+// ── Pin marker factory ────────────────────────────────────────────────────
+function makePin(color, isVenue = false) {
+  if (isVenue) {
+    // Large gold star pin for the manor
+    return L.divIcon({
+      className: '',
+      html: `<div style="position:relative;width:44px;height:52px">
+        <div style="
+          position:absolute;top:0;left:0;
+          width:44px;height:44px;border-radius:50% 50% 50% 0;
+          transform:rotate(-45deg);
+          background:#b8902e;
+          box-shadow:0 3px 10px rgba(184,144,46,0.5),0 0 0 3px white;
+        "></div>
+        <div style="
+          position:absolute;top:5px;left:5px;
+          width:34px;height:34px;border-radius:50%;
+          background:white;
+          display:flex;align-items:center;justify-content:center;
+          font-size:16px;line-height:1;
+        ">★</div>
+        <div style="
+          position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+          width:6px;height:10px;
+          background:#b8902e;
+          clip-path:polygon(0 0,100% 0,50% 100%);
+        "></div>
+      </div>`,
+      iconSize: [44, 52],
+      iconAnchor: [22, 52],
+      popupAnchor: [0, -54]
+    });
+  }
   return L.divIcon({
     className: '',
-    html: `<svg width="${size+4}" height="${size+4}" viewBox="0 0 ${size+4} ${size+4}" xmlns="http://www.w3.org/2000/svg">
-      ${pulse}
-      <circle cx="${(size+4)/2}" cy="${(size+4)/2}" r="${size/2}" fill="${color}" fill-opacity="0.18" stroke="${color}" stroke-width="1.5"/>
-      <circle cx="${(size+4)/2}" cy="${(size+4)/2}" r="${size/4}" fill="${color}"/>
-    </svg>`,
-    iconSize: [size+4, size+4],
-    iconAnchor: [(size+4)/2, (size+4)/2],
-    popupAnchor: [0, -(size/2)-4]
+    html: `<div style="position:relative;width:28px;height:36px">
+      <div style="
+        position:absolute;top:0;left:0;
+        width:28px;height:28px;border-radius:50% 50% 50% 0;
+        transform:rotate(-45deg);
+        background:${color};
+        box-shadow:0 2px 6px rgba(0,0,0,0.25),0 0 0 2px white;
+      "></div>
+      <div style="
+        position:absolute;top:5px;left:5px;
+        width:18px;height:18px;border-radius:50%;
+        background:white;opacity:0.85;
+      "></div>
+    </div>`,
+    iconSize: [28, 36],
+    iconAnchor: [14, 36],
+    popupAnchor: [0, -38]
   });
 }
 
 // ── Popup builder ─────────────────────────────────────────────────────────
-const TYPE_LABEL = { hotel: '🏨 Hôtel', gite: '🏡 Gîte', chambre: '🌸 Chambre d\'hôtes', venue: '🎂 Lieu de fête' };
-const TYPE_EMOJI = { hotel: '🏨', gite: '🏡', chambre: '🌸', venue: '🎂' };
+const TYPE_LABEL = { hotel: 'Hôtel', gite: 'Gîte', chambre: "Chambre d'hôtes", venue: 'Lieu de fête' };
+const TYPE_EMOJI = { hotel: '🏨', gite: '🏡', chambre: '🌸', venue: '⭐' };
 
 function buildLinks(h) {
   let html = '<div class="popup-links">';
   if (h.booking) html += `<a href="${h.booking}" target="_blank" class="popup-link link-booking">Booking</a>`;
   if (h.airbnb)  html += `<a href="${h.airbnb}"  target="_blank" class="popup-link link-airbnb">Airbnb</a>`;
   if (h.web)     html += `<a href="${h.web}"     target="_blank" class="popup-link link-web">Site web</a>`;
-  if (!h.booking && !h.airbnb && !h.web) html += `<span style="font-size:0.7em;color:#8b8fa8">Pas de lien direct</span>`;
+  if (!h.booking && !h.airbnb && !h.web) html += `<span style="font-size:0.7em;color:#9a9080">Pas de lien direct</span>`;
   html += '</div>';
   return html;
 }
@@ -503,28 +538,33 @@ function buildPopup(h, isVenue = false) {
       <span class="popup-emoji">${TYPE_EMOJI[h.type]}</span>
       <span class="popup-title">${h.name}</span>
     </div>
-    <div class="popup-sub">${isVenue ? h.sub : `${TYPE_LABEL[h.type]} · ${h.dist} km de Brassempouy`}</div>
+    <div class="popup-sub">${isVenue ? h.sub : `${TYPE_LABEL[h.type]} · ${h.dist} km du Manoir`}</div>
     <div class="popup-sub">${h.address}</div>
     ${h.note ? `<div class="popup-note">${h.note}</div>` : ''}
     ${buildLinks(h)}
+    ${!isVenue ? `<div style="font-size:0.62em;color:#b8902e;margin-top:6px;font-style:italic">Liens pré-remplis pour le 25 juillet 2026</div>` : ''}
   </div>`;
 }
 
-// ── Venue marker ──────────────────────────────────────────────────────────
-L.marker([VENUE.lat, VENUE.lng], { icon: makeIcon(CSS_VARS.venue, 32, true), zIndexOffset: 2000 })
+// ── Venue marker ───────────────────────────────────────────────────────────
+L.marker([VENUE.lat, VENUE.lng], { icon: makePin(CSS_VARS.venue, true), zIndexOffset: 2000 })
   .addTo(map)
-  .bindPopup(buildPopup(VENUE, true), { maxWidth: 260 });
+  .bindPopup(buildPopup(VENUE, true), { maxWidth: 270 });
 
-// ── Hébergement markers ───────────────────────────────────────────────────
+// ── Hébergement markers ────────────────────────────────────────────────────
 const allMarkers = HEBERGEMENTS.map(h => {
-  const m = L.marker([h.lat, h.lng], { icon: makeIcon(CSS_VARS[h.type]) })
+  const m = L.marker([h.lat, h.lng], { icon: makePin(CSS_VARS[h.type]) })
     .addTo(map)
-    .bindPopup(buildPopup(h), { maxWidth: 260 });
+    .bindPopup(buildPopup(h), { maxWidth: 270 });
   return { h, m };
 });
 
-// ── Sidebar card builder ──────────────────────────────────────────────────
-const BG_ALPHA = { hotel: 'rgba(96,165,250,0.1)', gite: 'rgba(52,211,153,0.1)', chambre: 'rgba(251,146,60,0.1)' };
+// ── Sidebar card builder ───────────────────────────────────────────────────
+const BG_ALPHA = {
+  hotel:   'rgba(29,78,216,0.08)',
+  gite:    'rgba(21,128,61,0.08)',
+  chambre: 'rgba(194,65,12,0.08)'
+};
 
 function buildCard(h) {
   const color = CSS_VARS[h.type];
@@ -534,13 +574,13 @@ function buildCard(h) {
     h.web     ? `<a href="${h.web}"     target="_blank" class="card-link link-web">Web</a>`        : ''
   ].join('');
 
-  const badge = TYPE_LABEL[h.type];
-  const badgeBg = `${color}22`; const badgeBorder = `${color}44`;
+  const badgeBg = `${color}18`;
+  const badgeBorder = `${color}40`;
 
   return `
-    <div class="card" data-name="${h.name}" style="--card-color:${color}">
+    <div class="card" data-name="${h.name}">
       <div class="card-top">
-        <div class="card-icon" style="background:${BG_ALPHA[h.type] || 'rgba(255,255,255,0.05)'}">
+        <div class="card-icon" style="background:${BG_ALPHA[h.type] || 'rgba(0,0,0,0.04)'}">
           ${TYPE_EMOJI[h.type]}
         </div>
         <div class="card-info">
@@ -553,13 +593,13 @@ function buildCard(h) {
       </div>
       ${h.note ? `<div class="card-note">${h.note}</div>` : ''}
       <div class="card-bottom">
-        <div class="card-dist">${h.dist} km de Brassempouy</div>
-        <div class="card-links">${links || '<span style="font-size:0.66em;color:#555">—</span>'}</div>
+        <div class="card-dist">${h.dist} km du Manoir</div>
+        <div class="card-links">${links || '<span style="font-size:0.66em;color:#b0a898">—</span>'}</div>
       </div>
     </div>`;
 }
 
-// ── Render + Filter ───────────────────────────────────────────────────────
+// ── Render + Filter ────────────────────────────────────────────────────────
 let activeFilter = 'all';
 
 function render() {
