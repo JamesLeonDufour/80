@@ -3,7 +3,29 @@
     "allow": [
       "Bash(find '/c/Users/james/OneDrive/James/Famille LD' -type f -name *.json -o -name *.md -o -name .cursorrules -o -name Makefile)",
       "WebFetch(domain:www.bareit.fr)",
-      "WebFetch(domain:tournoi.bareit.fr)"
+      "WebFetch(domain:tournoi.bareit.fr)",
+      "WebSearch",
+      "WebFetch(domain:www.booking.com)",
+      "WebFetch(domain:auxtauzins.com)",
+      "WebFetch(domain:www.hotelducommerce-amou.com)",
+      "WebFetch(domain:www.le-lodge-salies.com)",
+      "WebFetch(domain:www.hotelsalies.com)",
+      "WebFetch(domain:www.gites-de-france.com)",
+      "WebFetch(domain:www.hotel-des-lacs-dhalco.fr)",
+      "WebFetch(domain:www.gites-de-france-landes.com)",
+      "WebFetch(domain:www.chambres-hotes.fr)",
+      "WebFetch(domain:www.guide-des-landes.com)",
+      "WebFetch(domain:www.gites.fr)",
+      "WebFetch(domain:www.auberge-du-relais.com)",
+      "WebFetch(domain:www.giteminjounet.fr)",
+      "WebFetch(domain:hotel-gramont-pau.com)",
+      "WebFetch(domain:www.hotelmiradour.fr)",
+      "WebFetch(domain:www.hotel-lapetitecouronne.com)",
+      "WebFetch(domain:hotel-roncevaux-pau.com)",
+      "WebFetch(domain:www.premiereclasse.com)",
+      "WebFetch(domain:hotel-aireco.com)",
+      "WebFetch(domain:www.chambres-hote-le-sarrailh.com)",
+      "WebFetch(domain:hotel-levascon-dax.fr)"
     ]
   }
 }
