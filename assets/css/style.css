@@ -1067,3 +1067,85 @@ section {
     display: none;
   }
 }
+
+/* =============================================
+   HERO HOSTS + EVENT INTRO + DRESS CODE
+   ============================================= */
+.hero-hosts {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0.5rem 0 2rem;
+  letter-spacing: 0.02em;
+}
+
+.event-intro {
+  max-width: 680px;
+  margin: -1.5rem auto 3rem;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+#dresscode {
+  padding: 6rem 0;
+  background: var(--bg-2);
+  text-align: center;
+}
+
+.dresscode-intro {
+  max-width: 620px;
+  margin: 0 auto 3rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--text-muted);
+}
+
+.dresscode-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.dresscode-card {
+  background: var(--white);
+  border: 1px solid rgba(184, 144, 46, 0.2);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.dresscode-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: var(--gold-dark);
+  letter-spacing: 0.05em;
+}
+
+.dresscode-card p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--text);
+  margin-top: 0.5rem;
+}
+
+.footer-hosts {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 700px) {
+  .dresscode-cards {
+    grid-template-columns: 1fr;
+  }
+}
